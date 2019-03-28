@@ -1,0 +1,11 @@
+Data Structures
+---------------
+
+Objectives
+----------
+
+Understand why data structures are important
+Understand why we do algorithms and how this is applicable
+Understand bits and bytes
+Undertand O(N) O(N2) notations
+Understand why memory management is important

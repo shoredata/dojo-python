@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <title>Flask Template: Playground Exercise</title>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- <script src="main.js"></script> -->
+    <style>
+        /*CSS reset settings here*/
+        *{
+        /* margin: 0px;
+        padding: 0px; */
+            outline: 1px dotted red;
+        }
+        h1 {
+            color: maroon;
+            margin-left: 40px;
+        } 
+        #wrapper{
+            width: 1024px;
+            height: auto;
+            margin: auto;
+            padding: 10px;
+            background-color: #009900; /* green; */
+            border: 2px solid silver;
+            border-radius: 3px;
+        }
+        #sidenav{
+            width: 200px;
+            height: 20px;
+            background-color: white;
+            display: inline-block;
+            margin: 10px 10px 0px 0px;
+            /* border: 5px solid #0600FF; */
+            border: 5px solid {{ colorplay }}; 
+            border-radius: 3px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <h1>My flask template with embedded Python-like code</h1>
+        <!-- this will output the value of our phrase variable -->
+        <p>Phrase: {{ phrase }}</p>
+        <!-- this will output the value of our times variable -->
+        <p>Times: {{ times }}</p>
+        <!-- here is an example of embedding a for-loop in our code -->
+        {% for x in range(0,times): %}
+        <p>{{ phrase }}</p>
+        <p>{{ times + boxes_count }}</p>
+        {% endfor %}
+        <!-- here is an example of embedding an if statement in our code -->
+        {% if phrase == "hello" %}
+        <p>The phrase says hello</p>
+        {% endif %}
+        {% for x in range(0, boxes_count): %}
+        <div id="sidenav">Nice Box {{x}}</div>
+        {% endfor %}
+
+
+        
+    </div><!-- end of wrapper -->
+</body>
+</html>
+

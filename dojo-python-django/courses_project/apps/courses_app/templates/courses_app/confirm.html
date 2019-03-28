@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Confirm Course Deletion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h1>Are you sure you want to delete this course:</h1>
+
+        <p>ID: {{course.id}}</p>
+        <p>Name: {{course.course_name}}</p>
+        <p>Description: {{course.course_desc}}</p>
+
+        <br><br>
+
+        <form action="/destroy/{{course.id}}/" method="post">
+            {% csrf_token %}
+            <input type="hidden" id="course_id" name="course_id" placeholder="course_id" value="{{course.id}}">
+            <button type="submit">Yes I Want to Delete This Course</button>
+        </form>
+
+    <a href="/">No</a>
+
+    
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amadon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Amadon Store!</h1>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    <table style="width:100%">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Already Ordered</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        {% for p in allproducts %}
+            <tr>
+                <td>{{p.id}}</td>
+                <td>{{p.name}}</td>
+                <td>{{p.ordered_quantity}}</td>
+                <td>{{p.price}}</td>
+                <td>
+                    <form class="form-inline" action="/buy/" method="post">
+                        {% csrf_token %}
+                        <div class="col-auto my-1">
+                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="order_quantity">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                            </div>
+                        <input type="hidden" id="product_id" name="product_id" value="{{p.id}}">
+                        <button type="submit">Buy</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+
+    </table>
+    
+</body>
+</html>

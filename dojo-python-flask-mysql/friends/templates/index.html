@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Friends</title>
+
+    <style>
+        /*CSS reset settings here*/
+        *{
+            /* margin: 0px;
+            padding: 0px; */
+            /* outline: 1px dotted red; */
+        }
+        #wrapper{ 
+            /* height: auto; */
+            /* width: auto; */
+            /* margin: auto; */
+            /* text-align: center; */            
+            padding: 20px;
+        }
+        h1 {text-align: center;}
+        .required { color: red; margin-left: 5px; }
+    </style>
+
+
+</head>
+<body>
+
+
+
+    <div id="wrapper" class="wrapper">
+
+        <!-- <h1>Hello, world!</h1>
+
+        <!-- linking an image -->
+        <!-- <img src="{{ url_for('static', filename='img/my_img.png') }}"> -->
+
+        <h1>THESE ARE ALL OF MY FRIENDS</h2>
+
+        {% with messages = get_flashed_messages(category_filter=["all"]) %}
+          {% if messages %}
+            {% for message in messages %}
+              <p class="required">{{message}}</p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      
+        <table class="table table-striped thead-dark table-bordered table-hover table-sm">
+
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Occupation</th>
+                </tr>
+            </thead>
+
+            {% for friend in friends %}
+            <tr>
+                <td>{{ friend['id'] }}</td> 
+                <td>{{ friend['first_name'] }}</td> 
+                <td>{{ friend['last_name'] }}</td> 
+                <td>{{ friend['occupation'] }}</td>
+                <td>{{ friend['created_at'] }}</td>
+                <td>{{ friend['updated_at'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+        <form action='create_friend' method='post' style="margin-left:20px">
+            <h3>Add Friend</h3>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="inputNameFirst">First Name<abbr class="required" title="required">*</abbr></label>
+                    <input name="namefirst" type="text" class="form-control" id="inputNameFirst" placeholder="First Name" value="{{session['namefirst']}}">
+                    {% with messages = get_flashed_messages(category_filter=["namefirst"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="required">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="inputNameLast">Last Name<abbr class="required" title="required">*</abbr></label>
+                    <input name="namelast" type="text" class="form-control" id="inputNameLast" placeholder="Last Name" value="{{session['namelast']}}">
+                    {% with messages = get_flashed_messages(category_filter=["namelast"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="required">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="inputOccupation">Occupation<abbr class="required" title="required">*</abbr></label>
+                    <input name="occupation" type="text" class="form-control" id="inputOccupation" placeholder="Occupation" value="{{session['occupation']}}">
+                    {% with messages = get_flashed_messages(category_filter=["occupation"]) %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="required">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <input type='submit' value='Reset' class="btn btn-danger" name="Reset">
+            <input type='submit' value='Submit' class="btn btn-primary">
+        </form>
+
+
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+
+    </div> <!-- end wrapper -->
+
+
+</body>
+</html>

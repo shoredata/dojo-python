@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SDInfo [Map of Accounts]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'importer/css/main.css' %}" />
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        #mapcanvas {
+            background:white;display: block;
+            position:absolute;
+            height:auto;
+            bottom:0;
+            top:0;
+            left:0;
+            right:0;
+            margin-top:50px; /* adjust top margin to your header height */
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <!-- <span class="navbar-brand mb-0">{{thisuser.name}}</span>             -->
+        <a class="btn btn-sm btn-outline-danger" href="/logout/" role="button">Logout</a>
+        <a class="btn btn-sm btn-outline-dark" href="/myaccount/{{thisuser.id}}/edit/" role="button">{{thisuser.name}}</a>
+        <a class="btn btn-sm btn-outline-primary" href="/main/" role="button">Main Menu</a>
+        <a class="btn btn-sm btn-outline-success" href="/accounts/" role="button">Accounts</a>
+        <a class="btn btn-sm btn-outline-success" href="/trucks/" role="button">Trucks</a>
+        <a class="btn btn-sm btn-outline-success" href="/deliveries/" role="button">Deliveries</a>
+        <a class="btn btn-sm btn-outline-dark" href="/import/" role="button">Import Data</a>
+        <div class="bottom"></div> 
+    </div>            
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <!-- Offering a map of the entire Earth as a single image would either require an immense map, or a small map with very low resolution. As a result, map images within Google Maps and the Maps JavaScript API are broken up into map "tiles" and "zoom levels." At low zoom levels, a small set of map tiles covers a wide area; at higher zoom levels, the tiles are of higher resolution and cover a smaller area. The following list shows the approximate level of detail you can expect to see at each zoom level:
+    1: World
+    5: Landmass/continent
+    10: City
+    15: Streets
+    20: Buildings -->
+
+    <!-- view simple map centered on CD with no markers ... -->
+    <!-- <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 47.6100000, lng: -122.196400},
+          zoom: 19
+        });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC0uRYxn08c_K5dBNwfpDeaR2WBgpdpyQ&callback=initMap" async defer></script> -->
+
+    <div id="mapcanvas">
+        <div id="map"></div>
+    </div>
+
+    <script>
+
+
+
+
+
+    function initMap() {
+        var center = {lat: 47.6100000, lng: -122.196400}; //cd
+        var locations = {{ alllocations|safe }};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 5,
+            center: center
+        });
+
+        var infowindow =  new google.maps.InfoWindow({});
+        var marker, count;
+        var markers = [];
+        for (var count = 0; count < locations.length; count++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(locations[count][1], locations[count][2]),
+                map: map,
+                title: locations[count][0]
+            });
+            markers.push(marker);
+            google.maps.event.addListener(marker, 'click', (function (marker, count) {
+                return function () {
+                    infowindow.setContent(locations[count][0]);
+                    infowindow.open(map, marker);
+                }
+            })(marker, count));
+        }
+
+        var bounds = new google.maps.LatLngBounds();
+        for(i=0;i<markers.length;i++) {
+            bounds.extend(markers[i].getPosition());
+        }
+
+        // //center the map to a specific spot (city)
+        // map.setCenter(center); 
+
+        //center the map to the geometric center of all markers
+        map.setCenter(bounds.getCenter());
+
+        // Further research in the topic show that fitBounds() is a asynchronic and it is best 
+        // to make Zoom manipulation with a listener defined before calling Fit Bounds.
+        google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+            this.setZoom(map.getZoom()-1);
+
+            if (this.getZoom() > 12) {
+                this.setZoom(12);
+            }
+        });
+        map.fitBounds(bounds);
+
+        //Alternatively this code can be used to set the zoom for just 1 marker and to skip redrawing.
+        //Note that this will not cover the case if you have 2 markers on the same address.
+        if(locations.length == 1){
+            map.setMaxZoom(15);
+            map.fitBounds(bounds);
+            map.setMaxZoom(Null)
+        }
+
+    }
+
+
+
+
+
+    // function initMap() {
+    //     var center = {lat: 47.6100000, lng: -122.196400}; //cd
+    //     var locations = {{ alllocations|safe }};
+    //     var map = new google.maps.Map(document.getElementById('map'), {
+    //         zoom: 9,
+    //         center: center
+    //     });
+    //     var infowindow =  new google.maps.InfoWindow({});
+    //     var marker, count;
+    //     for (count = 0; count < locations.length; count++) {
+    //         marker = new google.maps.Marker({
+    //             position: new google.maps.LatLng(locations[count][1], locations[count][2]),
+    //             map: map,
+    //             title: locations[count][0]
+    //         });
+    //         google.maps.event.addListener(marker, 'click', (function (marker, count) {
+    //             return function () {
+    //                 infowindow.setContent(locations[count][0]);
+    //                 infowindow.open(map, marker);
+    //             }
+    //         })(marker, count));
+    //     }
+    // }
+
+
+
+
+
+
+    
+
+
+    //   function initMap() {
+    //     var myLatLng = {lat: 47.6100000, lng: -122.196400};
+
+    //     // Create a map object and specify the DOM element for display.
+    //     var map = new google.maps.Map(document.getElementById('map'), {
+    //       center: myLatLng,
+    //       zoom: 10
+    //     });
+    //     // Create a marker and set its position.
+    //     var marker = new google.maps.Marker({
+    //       map: map,
+    //       position: myLatLng,
+    //       title: 'Hello World!'
+    //     });
+    //   }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC0uRYxn08c_K5dBNwfpDeaR2WBgpdpyQ&callback=initMap" 
+    async defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</body>
+</html>

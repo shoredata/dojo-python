@@ -1,0 +1,43 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Flask Table Exercise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <style>
+        /*CSS reset settings here*/
+        *{
+            /* outline: 1px dotted red; */
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+
+        <table class="table table-sm table-bordered table-condensed table-responsive table-striped table-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students: %}
+                <tr>
+                    <td>{{ student['last_name'] }}</td>
+                    <td>{{ student['first_name'] }}</td>
+                    <td>{{ student['points'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div><br></div>
+
+
+    </div>    
+</body>
+</html>
+

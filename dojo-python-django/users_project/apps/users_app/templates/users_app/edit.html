@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Edit user {{user.id}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+</head>
+<body>
+
+    <h1>Edit user {{user.id}}</h1>>
+
+    <form action="/users/update/" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="user_id" name="user_id" placeholder="user_id" value="{{user.id}}">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" placeholder="first name" value="{{user.first_name}}">
+        <label for="las_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" placeholder="last name" value="{{user.last_name}}">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="email" value="{{user.email}}">
+        <button type="submit">Update</button>
+    </form>
+
+    <a href="/users/{{user.id}}/">Show</a> |  <a href="/users/">Go Back</a>
+</body>
+</html>

@@ -1,0 +1,29 @@
+/*  
+* { border: 1px dashed blue; } 
+*/
+
+.bottom { 
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 3px double #ccc;
+}
+.container-fluid {
+    padding-top: 10px;
+}
+.content {
+    padding: 10px;
+    margin: 0px;
+}
+th, tr {
+    font-size: small;    /* xx-small x-small small medium large x-large xx-large */
+}
+
+/* xx-small x-small small medium large x-large xx-large */
+/* font-size: small;     */
+
+/* p, label, input, number, field, Field {
+    padding: 0px;
+    margin: 0px;
+    font-size: small;
+} */
+

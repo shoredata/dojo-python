@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Django Wall</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+            
+</head>
+<body>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="/logout/" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-default">Logout</button>
+    </form>
+
+    {% if thisuser %}
+    <div>
+        <p>ID: {{thisuser.id}}</p>
+        <p>EMail: {{thisuser.email}}</p>
+    </div>
+    {% endif %}
+
+    
+    <form action="/message/new/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="message">New Message:</label>
+            <textarea name="message" class="form-control" rows="5" id="message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default">Post Message</button>
+    </form>
+
+
+
+
+
+    <h1>All Messages</h1>
+    {% if allmessages %}
+        <table style="width:100%">
+            <tr>
+                <th>User ID</th>
+                <th>Message ID</th>
+                <th></th>
+                <th>Email</th>
+                <th>Created</th>
+                <th>Message</th>
+                <th></th>
+            </tr>
+            {% for m in allmessages %}
+            <div>
+                <tr>
+                    <td>{{m.user_id}}</td>
+                    <td>{{m.id}}</td>
+                    <td></td>
+                    <td>{{m.user.email}}</td>
+                    <td>{{m.created_at}}</td>
+                    <td>{{m.message}}
+                        {% if m.user_id == request.session.login_userid %}
+                            <form class="inline" action="/message/destroy/" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="message_id" name="message_id" value="{{m.id}}">
+                                <button type="submit" class="btn btn-default">Delete My Message</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% if m.comments %}
+                    <tr>
+                        <th>User ID</th>
+                        <th>Message ID</th>
+                        <th>Comment ID</th>
+                        <th></th>
+                        <th>Created</th>
+                        <th>Comment</th>
+                        <th></th>
+                    </tr>
+                    {% for c in m.comments.all %}
+                        <tr>
+                            <td>{{c.user_id}}</td>
+                            <td>{{c.message_id}}</td>
+                            <td>{{c.id}}</td>
+                            <td>{{c.user.firstname}}</td>
+                            <td>{{c.created_at}}</td>
+                            <td>{{c.comment}}
+                                {% if c.user_id == request.session.login_userid %}
+                                    <form class="inline" action="/comment/destroy/" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="comment_id" name="comment_id" value="{{c.id}}">
+                                        <button type="submit" class="btn btn-default">Delete My Comment</button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <form action="/comment/new/" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="comment">New Comment:</label>
+                                <input type="hidden" id="message_id" name="message_id" value="{{m.id}}">
+                                <textarea name="comment" class="form-control" rows="2" id="comment"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-default">Post Comment</button>
+                        </form>
+                    </td>
+                    <td></td>
+                </tr>
+            
+
+
+
+            </div>
+
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+
+</body>
+</html>

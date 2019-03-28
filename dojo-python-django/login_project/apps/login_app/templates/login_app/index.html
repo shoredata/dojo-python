@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Django Login & Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="/login/" method="post">
+        <h1>Login</h1>
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="loginemail">Email address:</label>
+          <input type="email" class="form-control" id="loginemail" name="loginemail" value="">
+        </div>
+        <div class="form-group">
+          <label for="loginpassword">Password:</label>
+          <input type="password" class="form-control" id="loginpassword" name="loginpassword" value="">
+        </div>
+        <button type="submit" class="btn btn-default">Login</button>
+    </form>
+    
+    <form action="/register/" method="post">
+        <h1>Registration</h1>
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="firstname">First Name:</label>
+          <input type="text" class="form-control" id="firstname" name="firstname" value="">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" value="">
+        </div>
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" name="email" value="">
+        </div>
+        <div class="form-group">
+            <label for="password1">Passsword:</label>
+            <input type="password" class="form-control" id="password1" name="password1" value="">
+        </div>
+        <div class="form-group">
+            <label for="password2">Verify Password:</label>
+            <input type="password" class="form-control" id="password2" name="password2" value="">
+        </div>
+        <button type="submit" class="btn btn-default">Register</button>
+    </form>
+
+
+
+    <h1>All Users</h1>
+    {% if allusers %}
+        <table style="width:100%">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Created</th>
+            </tr>
+            {% for u in allusers %}
+                <tr>
+                    <td>{{u.id}}</td>
+                    <td>{{u.firstname}} {{u.lastname}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.created_at}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+
+</body>
+</html>

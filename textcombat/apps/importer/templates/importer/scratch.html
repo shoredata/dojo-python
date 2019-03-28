@@ -1,0 +1,97 @@
+index:
+
+<div class="container-fluid">
+
+    <h2>{{request.session.successmessage}}</h2>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    
+    <div class="container">    
+        <div class="row">
+            <h2>Coding Dojo Python Belt Exam</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+
+                <form action="/login/" method="post">
+                    <h3>Login</h3>
+                    {% csrf_token %}
+                    <div class="form-group">
+                    <label for="loginemail">Email address:</label>
+                    <input type="email" class="form-control" id="loginemail" name="loginemail" value="">
+                    </div>
+                    <div class="form-group">
+                    <label for="loginpassword">Password:</label>
+                    <input type="password" class="form-control" id="loginpassword" name="loginpassword" value="">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-primary">Login</button>
+                </form>
+
+            </div>
+            <div class="col-sm">
+
+                <form action="/register/" method="post">
+                    <h3>Registration</h3>
+                    {% csrf_token %}
+                    <div class="form-group">
+                    <label for="firstname">First Name:</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname">Last Name:</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password1">Passsword:</label>
+                        <input type="password" class="form-control" id="password1" name="password1" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">Verify Password:</label>
+                        <input type="password" class="form-control" id="password2" name="password2" value="">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-success">Register</button>
+                </form>
+
+            </div>
+        </div>
+    </div>    
+
+    {% if allusers %}
+        <h2>All Users</h2>
+        <table style="width:100%">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Created</th>
+            </tr>
+            {% for u in allusers %}
+                <tr>
+                    <td>{{u.id}}</td>
+                    <td>{{u.firstname}} {{u.lastname}}</td>
+                    <td>{{u.email}}</td>
+                    <td>{{u.created_at|date:"n/j g:i A"}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+</div>
+
+
+
+
+

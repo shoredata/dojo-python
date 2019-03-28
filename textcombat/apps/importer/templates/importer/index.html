@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SDInfo [Login]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'importer/css/main.css' %}" />
+
+    <script src="{% static 'importer/js/main.js' %}"></script>
+
+    <style>
+
+        /* for full screen image */
+        body {
+            margin:0;
+            line-height: 1.6;
+        }
+
+        #showcase{
+            /* background-image:url('importer/showcase.jpg'); */
+            /* "{% static "my_app/example.jpg" %}"            */
+            background-image: url("{% static 'importer/img/showcase.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: top;
+            align-items: center;
+            /* text-align: center; */
+            padding: 0 20px;
+        }
+
+        #showcase h1{
+            border: #ffffff 1px solid;
+            color: #ffffff;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin-top: 100px;
+            text-align: center;
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <header id="showcase">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <h1>Welcome to the Beach</h1>
+        <div class="container-fluid ">
+            <div class="row justify-content-center">
+                <div class="col-xs-6">
+                    <form class="" action="/login/" method="post">
+                        {% csrf_token %}
+                        {{ loginform.as_p }}
+                        <input type="submit" class="btn btn-sm btn-primary" value="Login">
+                        <a href="#register" class="btn btn-sm float-sm-right btn-outline-dark">Register</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <h2>{{request.session.successmessage}}</h2>
+
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="container-fluid ">
+        <div class="row content">
+            <form id="register" class="" action="/register/" method="post">
+                {% csrf_token %}
+                {{ registerform.as_p }}
+                <input type="submit" class="btn btn-sm btn-primary" value="Submit">
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</body>
+</html>

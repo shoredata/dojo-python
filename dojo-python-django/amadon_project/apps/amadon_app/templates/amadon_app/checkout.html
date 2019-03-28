@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Thank you for your business!</h1>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <br><br>
+
+    <p>We charged your credit card a total of ${{request.session.invoicecharged}}.</p>
+    <br><br>
+    <p>You have ordered {{request.session.totalitems}} so far and spent </p>
+    <p>${{request.session.totalcharged}} with Amadon.com!</p>
+
+    <br><br>
+
+    <td><a href="/">Go Back</a></td>
+    
+</body>
+</html>

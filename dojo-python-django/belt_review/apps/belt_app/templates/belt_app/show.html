@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Python Belt Prep - Django - Show Book/Reviews</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style> -->
+            
+</head>
+<body>
+
+    
+    <h1>Add a New Book Review for</h1>
+    <h2>Title: {{thisbook.title}}</h2>
+    <h2>Author: {{thisbook.author.authorname}}</h2>
+
+    {% if thisuser %}
+    <div>
+        <p>ID: {{thisuser.id}}</p>
+        <p>EMail: {{thisuser.email}}</p>
+    </div>
+    {% endif %}
+
+    <p><a href="/books/">Home</a></p>
+
+    <p><a href="/logout/">Logout</a></p>
+
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+
+    <form action="/books/create/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+
+            <label for="review_text">New Review:</label>
+            <textarea name="review_text" class="form-control" rows="5" id="review_text"></textarea>
+
+            <input type="hidden" id="book_id" name="book_id" value="{{thisbook.id}}">
+            <input type="hidden" id="author_id" name="author_id" value="{{thisbook.author.id}}">
+
+            <div class="form-group col-md-6">
+                <label for="book_rating">Book Rating:</label>
+                <select name="book_rating" id="book_rating" class="form-control">
+                    <option value="5" selected>5</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+
+        <button type="submit" class="btn btn-default">Submit Review</button>
+        </div>
+    </form>
+
+
+    {% if allreviews %}
+        <h2>All Reviews for {{thisbook.title}}</h2>
+        <table style="width:100%">
+            <tr>
+                <th>User</th>
+                <th>Review</th>
+                <th>Created</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Rating</th>
+                <th>Review</th>
+            </tr>
+            {% for r in allreviews %}
+                <tr>
+                    <td><a href="/books/{{r.user_id}}/showuser/">{{r.user.useralias}}</a></td>
+                    <td>{{r.id}}</td>
+                    <td>{{r.created_at}}</td>
+                    <td>{{r.book.author.authorname}}</td>
+                    <td><a href="/books/{{r.book_id}}/showbook/">{{r.book.title}}</a></td>
+                    <td>{{r.rating}}</td>
+                    <td>{{r.review}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+
+
+</body>
+</html>

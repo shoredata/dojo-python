@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Python Belt Prep - Django - Show User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style> -->
+            
+</head>
+<body>
+    
+    <h1>Add a New Book Review for</h1>
+    <h2>Title: {{thisbook.title}}</h2>
+    <h2>Author: {{thisbook.author.authorname}}</h2>
+
+    {% if thisuser %}
+    <div>
+        <p>ID: {{thisuser.id}}</p>
+        <p>EMail: {{thisuser.email}}</p>
+    </div>
+    {% endif %}
+
+    <p><a href="/books/">Home</a></p>
+
+    <p><a href="/logout/">Logout</a></p>
+
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+
+
+
+    {% if allreviews %}
+        <h2>My Reviews:</h2>
+        <table style="width:100%">
+            <tr>
+                <th>User</th>
+                <th>Review</th>
+                <th>Created</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Rating</th>
+                <th>Action</th>
+                <th>Review</th>
+            </tr>
+            {% for r in allreviews %}
+                <tr>
+                    <td><a href="/books/{{r.user_id}}/showuser/">{{r.user.useralias}}</a></td>
+                    <td>{{r.id}}</td>
+                    <td>{{r.created_at}}</td>
+                    <td>{{r.book.author.authorname}}</td>
+                    <td><a href="/books/{{r.book_id}}/showbook/">{{r.book.title}}</a></td>
+                    <td>{{r.rating}}</td>
+                    <td><a href="/books/{{r.id}}/booksdestroyreview/">Delete Review</a></td>
+                    <td>{{r.review}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+
+
+</body>
+</html>

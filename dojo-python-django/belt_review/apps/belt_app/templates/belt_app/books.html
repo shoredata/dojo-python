@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Python Belt Prep - Django - Show All Books and Reviews</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style> -->
+            
+</head>
+<body>
+
+
+    {% if thisuser %}
+    <div>
+        <p>ID: {{thisuser.id}}</p>
+        <p>EMail: {{thisuser.email}}</p>
+    </div>
+    {% endif %}
+
+    <p><a href="/books/new/">Add a New Book & Review</a></p>
+
+    <p><a href="/logout/">Logout</a></p>
+
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message.tags }} {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
+    <h1>All Books to Review</h1>
+    {% if allbooks %}
+        <table style="width:100%">
+            <tr>
+                <th>Title</th>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Created</th>
+            </tr>
+            {% for b in allbooks %}
+                <tr>
+                    <td><a href="/books/{{b.id}}/showbook/">{{b.title}}</a></td>
+                    <td>{{b.id}}</td>
+                    <td>{{b.author.authorname}}</td>
+                    <td>{{b.created_at}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+    <h1>All Reviews</h1>
+    {% if allreviews %}
+        <table style="width:100%">
+            <tr>
+                <th>User</th>
+                <th>Review</th>
+                <th>Created</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Rating</th>
+                <th>Review</th>
+            </tr>
+            {% for r in allreviews %}
+                <tr>
+                    <td><a href="/books/{{r.user_id}}/showuser/">{{r.user.useralias}}</a></td>
+                    <td>{{r.id}}</td>
+                    <td>{{r.created_at}}</td>
+                    <td>{{r.book.author.authorname}}</td>
+                    <td><a href="/books/{{r.book_id}}/showbook/">{{r.book.title}}</a></td>
+                    <td>{{r.rating}}</td>
+                    <td>{{r.review}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <h2>Most Recent Reviews:</h2>
+    {% if allreviews %}
+        <table style="width:100%">
+            <tr>
+                <th>User</th>
+                <th>Review</th>
+                <th>Created</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Rating</th>
+                <th>Review</th>
+            </tr>
+            {% for r in allreviews reversed %}
+                <tr>
+                    <td><a href="/books/{{r.user_id}}/showuser/">{{r.user.useralias}}</a></td>
+                    <td>{{r.id}}</td>
+                    <td>{{r.created_at}}</td>
+                    <td>{{r.book.author.authorname}}</td>
+                    <td><a href="/books/{{r.book_id}}/showbook/">{{r.book.title}}</a></td>
+                    <td>{{r.rating}}</td>
+                    <td>{{r.review}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+
+</body>
+</html>

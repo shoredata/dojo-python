@@ -1,0 +1,12 @@
+<form action="/blogs/create/" method="post">
+    <h2>{{request.session.name}}</h2>
+    {% csrf_token %}
+    <br>
+    <label for="name">Blog Name:</label>
+    <input type="text" id="name" name="name" placeholder="blog name">
+    <label for="desc">Description:</label>        
+    <textarea id="desc" name="desc" placeholder="description"></textarea>
+    <button type="submit">Submit</button>
+
+    <h2>The current time is {{ currenttime }}</h2>
+</form>

@@ -1,0 +1,43 @@
+Run the following commands:
+
+pip install Django==1.11.9
+** installs django with specified version
+
+pip list
+** shows installed modules
+
+deactivate (This will deactivate your virtual environment)
+** deactivates currently active virtualenv
+
+pip3 list (How is the result different from when you ran pip list with the virtualenv activated? Hint, you should not have as many things listed when the virtualenv is deactivated. If your results are the same, go back and figure out what went wrong.)
+** shows pip modules when virtualenv not active
+
+source myEnvironments/py3Env/bin/activate (Adjust the path as needed to re-activate the virtualenv; for windows call myEnvironments/py3Env/Scripts/activate)
+** activate virtualenv
+
+pip install Django==1.11.9 (We know you already ran this one. What information do you see returned in terminal after this command?)
+**
+$ pip install Django==1.11.9
+Requirement already satisfied: Django==1.11.9 in ./py3Env/lib/python3.6/site-packages (1.11.9)
+Requirement already satisfied: pytz in ./py3Env/lib/python3.6/site-packages (from Django==1.11.9) (2018.4)
+(py3Env)
+
+pip freeze (What's the difference between freeze and list?)
+**
+pip list
+  List installed packages, including editables.
+pip freeze
+  Output installed packages in requirements format.
+So there are two differences:
+  Output format, freeze gives us the standard requirement format that may be used later with pip install -r to install requirements from.
+  Output content, pip list include editables which pip freeze does not.
+
+First cd into your Desktop directory (cd ~/Desktop), then run this command: pip freeze > requirements.txt. What do you see when you ls? What's inside this file?
+
+pip uninstall Django
+** uninstall django
+
+pip show Django
+
+pip search Flask
+This one might take a moment to execute.

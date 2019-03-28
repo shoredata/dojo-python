@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <!-- BOOTSTRAP: The above 3 meta tags *must* come first in the head; 
+    any other head content must come *after* these tags -->
+
+    <title>Rock Paper Scissors</title>
+
+    <!-- linking a css style sheet -->
+    <!-- Each page may include a reference to the external style sheet file inside the <link> element. 
+    The <link> element goes inside the <head>  -->
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!-- -->
+    <!-- Latest compiled and minified CSS for BOOTSTRAP -->
+
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"> -->
+
+    <!-- -->
+    <!-- linking a local stylesheet file via flask -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"> -->
+    <style>
+        /*CSS reset settings here*/
+        *{
+            /* margin: 0px;
+            padding: 0px; */
+            /* outline: 1px dotted red; */
+        }
+        #wrapper{ 
+            /* height: auto; */
+            /* width: auto; */
+            /* margin: auto; */
+            /* test-align: center; */
+        }
+        .inline { display: inline; }
+    </style>
+    <script type="text/javascript">
+        //jquery wait for document to load
+        // $(document).ready(function(){
+
+            // $('img').click(function(){
+            //     $(this).slideUp();
+            // });
+        // });
+    </script>
+
+</head>
+<body>
+
+    <div id="wrapper" class="wrapper">
+
+        <!-- <h1>Hello, world!</h1> -->
+
+
+        <form class="inline" action='process_play/1' method='POST'> 
+            <input type='submit' value='ROCK' class="btn btn-primary">
+        </form>
+        <form class="inline" action='process_play/2' method='POST'> 
+            <input type='submit' value='PAPER' class="btn btn-secondary">
+        </form>
+        <form class="inline" action='process_play/0' method='POST'> 
+            <input type='submit' value='SCISSORS' class="btn btn-warning">
+        </form>
+
+        <br>
+        <br>
+
+        <form action='reset' method='POST'> 
+            <input type='submit' value='RESET' class="btn btn-danger">
+        </form>
+
+
+        <br>
+
+
+
+        {% if (session['wincount'] + session['losscount'] + session['tiecount']) > 0 %}
+
+        Wins: {{session['wincount']}} &nbsp;&nbsp;&nbsp;&nbsp; {{   '{0:0.2f}'.format(   session['wincount'] / (session['wincount'] + session['losscount'] + session['tiecount'])  ) }}  <br>
+        Losses: {{session['losscount']}} &nbsp;&nbsp;&nbsp;&nbsp; {{   '{0:0.2f}'.format(   session['losscount'] / (session['wincount'] + session['losscount'] + session['tiecount'])  )   }}  <br>
+        Ties: {{session['tiecount']}} &nbsp;&nbsp;&nbsp;&nbsp; {{   '{0:0.2f}'.format(   session['tiecount'] / (session['wincount'] + session['losscount'] + session['tiecount'])   )    }}  <br>
+
+        {% endif %}
+
+        <br>
+
+
+
+        {% if (session['rocksub'] + session['papersub'] + session['scissorsub']) > 0 %}
+
+
+        Rocks: {{ session['rocksub']}}  &nbsp;&nbsp;&nbsp;&nbsp;  {{   '{0:0.2f}'.format(    session['rocksub'] / (session['rocksub'] + session['papersub'] + session['scissorsub'])    )    }}  <br>
+        Papers: {{ session['papersub']}}  &nbsp;&nbsp;&nbsp;&nbsp;  {{   '{0:0.2f}'.format(    session['papersub'] / (session['rocksub'] + session['papersub'] + session['scissorsub'])    )    }}  <br>
+        Scissors: {{ session['scissorsub']}}  &nbsp;&nbsp;&nbsp;&nbsp;  {{   '{0:0.2f}'.format(    session['scissorsub'] / (session['rocksub'] + session['papersub'] + session['scissorsub'])   )   }}  <br>
+
+        {% endif %}
+
+        
+
+
+        <p>Views: {{session['views']}}</p>
+
+        
+        <!-- https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/How_to_structure_an_HTML_form -->
+
+        <!-- <form action='result' method='post'>
+            <div>
+                <label for="username">Username: <abbr title="required">*</abbr></label>
+                <input id="username" type="text" name="username">
+            </div>
+            <label for="name">Name:</label>
+            <input type='text' name='name'>
+            <br>
+            <label for="email">Email: </label>
+            <input type='text' name='email'>
+            <br>
+            <label for="phone">Phone: </label>
+            <input type='text' name='phone'>
+            <br>
+            <label for="comment">Comment: </label>
+            <textarea name='comment'></textarea>
+            <br>
+            <input type='checkbox' name='subscribe' value='yes'>
+            <label for="subscribe">Subscribe to Mailing List</label>
+            <fieldset name="contact_fieldset">
+                <legend>Preferred Contact Method:</legend>
+                <input type="radio" name="contact" id="contact_email" value="email">
+                <label for="contact_email">Email</label>
+                <br>
+                <input type='radio' name='contact' id='contact_phone' value='phone'>
+                <label for="contact_phone">Phone</label>
+            </fieldset>
+            <label for="language">Language:</label>
+            <select name="language">
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="arabic">Arabic</option>
+                <option value="french">French</option>
+                <option value="russian">Russian</option>
+            </select>
+            <br>
+            <label for="location">Dojo Location:</label>
+            <select name="location">
+                <option value="seattle">Seattle</option>
+                <option value="dallas">Dallas</option>
+                <option value="sanjose">San Jose</option>
+                <option value="canuckistan">Quebec</option>
+                <option value="warzone">Tikrit</option>
+            </select>
+            <hr>
+            <input type='submit' value='Submit'>
+        </form> -->
+
+
+        <!-- Optional JavaScript -->
+        <!-- Placing scripts in external files has some advantages:
+        - It separates HTML and code
+        - It makes HTML and JavaScript easier to read and maintain
+        - Cached JavaScript files can speed up page loads -->
+        <!-- Placing scripts at the bottom of the <body> element improves the display speed 
+        because script compilation slows down the display.     -->
+        <!-- -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!-- jQuery -->
+
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+
+        <!-- popper -->
+
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+
+        <!-- Latest compiled and minified JavaScript -->
+
+        <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script> -->
+
+        <!-- -->
+        <!-- linking a local javascript file via flask -->
+
+        <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+
+    </div> <!-- end wrapper -->
+
+</body>
+</html>
+

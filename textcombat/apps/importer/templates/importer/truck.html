@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SDInfo [Truck Details]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'importer/css/main.css' %}" />
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <!-- <span class="navbar-brand mb-0">{{thisuser.name}}</span>             -->
+        <a class="btn btn-sm btn-outline-danger" href="/logout/" role="button">Logout</a>
+        <a class="btn btn-sm btn-outline-dark" href="/myaccount/{{thisuser.id}}/edit/" role="button">{{thisuser.name}}</a>
+        <a class="btn btn-sm btn-outline-primary" href="/main/" role="button">Main Menu</a>
+        <a class="btn btn-sm btn-outline-success" href="/accounts/" role="button">Accounts</a>
+        <a class="btn btn-sm btn-outline-success" href="/trucks/" role="button">Trucks</a>
+        <a class="btn btn-sm btn-outline-success" href="/deliveries/" role="button">Deliveries</a>
+        <a class="btn btn-sm btn-outline-dark" href="/import/" role="button">Import Data</a>
+        <div class="bottom"></div> 
+    </div>            
+
+    <div class="container-fluid ">
+        <div class="row content">
+            <h2>Truck #{{thistruck.number}}</h2>
+        </div>
+        <a class="btn btn-sm btn-primary" href="#deliveries" role="button">Deliveries</a>
+        <br><br>
+    </div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% if truckform %}
+    <div class="container-fluid w-100 p-3" style="background-color: #ccc;">
+        <form class="" action="/truck/{{thistruck.id}}/update/" method="post">
+            {% csrf_token %}
+            {{ truckform.as_p }}
+            <!--  ".as_p" is an example of an option you can attach to the form inputs
+            "as_table" and "as_ul" are a few others...-->
+
+            <!-- <input type="submit" value="Update"> -->
+            
+        </form>
+    </div>
+    {% endif %}
+
+    <div id="deliveries" class="container-fluid ">
+        <div class="row content">
+            <h2>Deliveries: [{{thistruck.deliveries.count}}]</h2>
+        </div>
+        <a class="btn btn-sm btn-primary" href="/deliveries/{{thistruck.id}}/truck/map/" role="button">Map Deliveries by Truck #{{thistruck.number}}</a>
+        <a class="btn btn-sm btn-primary" href="/trucks/{{thistruck.id}}/deliver/" role="button">Generate Delivery</a>
+        <br><br>
+    </div>
+
+    {% if thistruck.deliveries.count  %}
+    <div class="col-xs-6">
+    <table class="table-striped table-bordered table-condensed">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Date Time</th>
+                <th scope="col">Acct#</th>
+                <th scope="col">DR : TRK</th>
+                <th scope="col">Location</th>
+                <th scope="col">Sale#</th>
+                <th scope="col">Volume</th>
+                <th scope="col">Pct%</th>
+                <th scope="col">Amt$</th>
+                <th scope="col">PC</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for d in thisdeliveries reversed %}
+                <tr>
+                    <td><a href="/delivery/{{d.id}}/view/">{{ d.finishdate|date:"m/d/y H:i" }}</a></td>
+                    <td><a href="/account/{{d.account.id}}/view/">{{ d.account.accountnumber }}</a></td>
+                    <td><a href="/truck/{{d.truck.id}}/view/">{{ d.drivernumber }}:{{ d.truck.number }}</a></td>
+                    <td><a href="/deliveries/{{d.id}}/delivery/map/">{{ d.latitude|floatformat:3 }},{{ d.longitude|floatformat:3 }}</a></td>
+                    <td><a href="/delivery/{{d.id}}/view/">{{ d.salenumber }}</a></td>
+                    <td>{{ d.volume }}</td>
+                    <td>{{ d.percent_full_start }}:{{ d.percent_full_end }}</td>
+                    <td>${{ d.totalcost }}</td>
+                    <td>{{ d.productcode }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="col-xs-6">
+        <h3>NO DELIVERIES FOR TRUCK # {{thistruck.number}}</h3>
+    </div>
+    {% endif %}
+
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+</body>
+</html>

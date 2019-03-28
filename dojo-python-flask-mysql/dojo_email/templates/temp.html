@@ -1,0 +1,102 @@
+<table class="table table-striped thead-dark table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">EMail</th>
+                <th scope="col">Created</th>
+            </tr>
+        </thead>
+
+        {% for useritem in userslist %}
+        <tr>
+            <td>{{ useritem['id'] }}</td> 
+            <td>{{ useritem['first_name'] }}</td> 
+            <td>{{ useritem['last_name'] }}</td> 
+            <td>{{ useritem['occupation'] }}</td>
+            <td>{{ useritem['created_at'] }}</td>
+            <td>{{ useritem['updated_at'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+  
+
+    <!-- https://getbootstrap.com/docs/4.0/components/forms/ -->
+
+    <h2>REGISTER NEW USER</h2>
+
+    {% with messages = get_flashed_messages(category_filter=["all"]) %}
+      {% if messages %}
+        {% for message in messages %}
+          <p class="required">{{message}}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action='result' method='post'>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inputEmail4">Email<abbr class="required" title="required">*</abbr></label>
+                <input name="email" type="email" class="form-control" id="inputEmail4" placeholder="Email"  value="{{session['email']}}">
+                {% with messages = get_flashed_messages(category_filter=["email"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="required">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputPassword4">Password<abbr class="required" title="required">*</abbr></label>
+                <input name="password" type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                {% with messages = get_flashed_messages(category_filter=["password"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="required">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputPasswordConfirm4">Confirm Password<abbr class="required" title="required">*</abbr></label>
+                <input name="passwordconfirm" type="password" class="form-control" id="inputPasswordConfirm4" placeholder="Re-enter Password">
+                {% with messages = get_flashed_messages(category_filter=["passwordconfirm"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="required">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputNameFirst">First Name<abbr class="required" title="required">*</abbr></label>
+                <input name="namefirst" type="text" class="form-control" id="inputNameFirst" placeholder="First Name" value="{{session['namefirst']}}">
+                {% with messages = get_flashed_messages(category_filter=["namefirst"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="required">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputNameLast">Last Name<abbr class="required" title="required">*</abbr></label>
+                <input name="namelast" type="text" class="form-control" id="inputNameLast" placeholder="Last Name" value="{{session['namelast']}}">
+                {% with messages = get_flashed_messages(category_filter=["namelast"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="required">{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <input type='submit' value='Reset' class="btn btn-danger" name="Reset">
+        <input type='submit' value='Submit' class="btn btn-primary">
+    </form>

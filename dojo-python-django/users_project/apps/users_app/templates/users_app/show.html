@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>User {{user.id}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+</head>
+<body>
+    <h1>User {{user.id}}</h1>
+
+    <p>Full Name: {{user.first_name}} {{user.last_name}}</p>
+    <p>Email: {{user.email}}</p>
+    <p>Created at: {{user.created_at}}</p>
+    <p>Created at: {{user.updated_at}}</p>
+
+    <a href="/users/{{user.id}}/edit/">Edit</a> | <a href="/users/{{user.id}}/destroy/">Delete</a>
+
+    <br>
+
+    <a href="/users/">Go Back</a>
+</body>
+</html>

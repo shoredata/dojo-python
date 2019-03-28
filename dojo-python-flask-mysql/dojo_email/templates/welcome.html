@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <!-- BOOTSTRAP: The above 3 meta tags *must* come first in the head; 
+    any other head content must come *after* these tags -->
+
+    <title>Admin</title>
+
+    <!-- Bootstrap core css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <style>
+        /*CSS reset settings here*/
+        *{
+            /* margin: 0px; */
+            /* padding: 0px; */
+            /* outline: 1px dotted red; */
+        }
+        #wrapper{ 
+            /* height: auto; */
+            /* width: auto; */
+            /* margin: auto; */
+            /* test-align: center; */
+        }
+        .form{
+            /* margin: 20px; */
+            padding: 20px;
+        }
+        .messages{
+            margin: 20px;
+            /* padding: 20px; */
+        }
+        .required { 
+            color: red; 
+            margin-left: 5px; 
+            margin-right: 5px; 
+        }
+    </style>
+
+</head>
+<body>
+
+    <div id="wrapper" class="wrapper">
+
+        <div id="new_message" class="new_message ">
+
+            <h1>Welcome {{ session['namefirst'] }}!</h1>
+
+            {% with flashed_messages = get_flashed_messages(with_categories=true) %}
+                {% if flashed_messages %}
+                    {% for category, message in flashed_messages %}
+                        <p class="required">{{message, category}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form class="form border rounded" action='new_message' method='post'>
+
+                <h2>New Message:</h2>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputToUsername">To: </label>
+                        <select name="touserid" id="inputToUsername" class="form-control">
+                            <option value="1" selected>[Not Bob]</option>
+                            <option value="2">Also Not Bob</option>
+                            <option value="3">AKA Other Bob</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="message">Message</label>
+                        <textarea name="message" class="form-control" rows="5" id="message"></textarea>
+                    </div>
+            
+                <!-- <input type='submit' value='Register' class="btn btn-success" name="NewUser"> -->
+                <input type='submit' value='Logout' class="btn btn-warning" name="Logout">
+                <input type='submit' value='Reset' class="btn btn-danger" name="ResetMessage">
+                <input type='submit' value='Submit' class="btn btn-primary" name="Submit">
+
+            </form>
+
+        </div>
+
+        <div id="messages" class="messages ">
+
+            <h2>All Users</h2>
+
+            {% for user in adminuserslist %}            
+            <tr>
+                <td>{{ user['id'] }}</td> 
+                <td>{{ user['email'] }}</td> 
+                <td>{{ user['namefirst'] }}</td> 
+                <br>
+            </tr>
+            {% endfor %}
+
+            <br>
+
+
+            <h2>'Not Me' Users</h2>
+
+            {% for user in otheruserslist %}            
+            <tr>
+                <td>{{ user['id'] }}</td> 
+                <td>{{ user['email'] }}</td> 
+                <td>{{ user['namefirst'] }}</td> 
+                <br>
+            </tr>
+            {% endfor %}
+
+            <br>
+            <br>
+            <br>
+
+
+            <h2>Messages</h2>
+
+            {% for message in rxmessages %}            
+            <tr>
+                <td>{{ message['from_id'] }}</td> 
+                <td>{{ message['from_email'] }}</td> 
+                <td>{{ message['from_name'] }}</td> 
+                <td>{{ message['sent_on'] }}</td> 
+                <td>{{ message['message'] }}</td> 
+                <br>
+            </tr>
+            {% endfor %}
+
+            <br>
+
+            <h2>Sent</h2>
+
+            {% for message in txmessages %}            
+            <!-- Due to dual relationships from here is TO due to WHERE clause in select -->
+            <tr>
+                <td>{{ message['from_id'] }}</td> 
+                <td>{{ message['from_email'] }}</td> 
+                <td>{{ message['from_name'] }}</td> 
+                <td>{{ message['sent_on'] }}</td> 
+                <td>{{ message['message'] }}</td> 
+                <br>
+            </tr>
+            {% endfor %}
+
+        </div>
+    
+    </div> <!-- end wrapper -->
+
+
+    <!-- Optional JavaScript -->
+    <!-- Placing scripts in external files has some advantages:
+    - It separates HTML and code
+    - It makes HTML and JavaScript easier to read and maintain
+    - Cached JavaScript files can speed up page loads -->
+    <!-- Placing scripts at the bottom of the <body> element improves the display speed 
+    because script compilation slows down the display.     -->
+    <!-- -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <!-- -->
+    <!-- linking a local javascript file via flask -->
+    <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+
+
+</body>
+</html>
+

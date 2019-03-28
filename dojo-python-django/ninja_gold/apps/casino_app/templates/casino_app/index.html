@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <!-- BOOTSTRAP: The above 3 meta tags *must* come first in the head; 
+    any other head content must come *after* these tags -->
+
+    <title>Django Ninja Casino</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style>
+        /*CSS reset settings here*/
+        *{
+            /* margin: 0px;
+            padding: 0px; */
+            outline: 1px dotted red;
+        }
+        #wrapper{ 
+            /* height: auto; */
+            /* width: auto; */
+            /* margin: auto; */
+            /* test-align: center; */
+        }
+        .required { color: red; margin-left: 5px; }
+    </style>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#datepicker').datepicker();
+        });
+    </script>
+
+</head>
+<body>
+
+
+
+
+
+    
+    <!-- <div id="wrapper" class="wrapper btn-group btn-block"> -->
+    <div id="wrapper" class="wrapper btn-group-lg btn-group-vertical">
+
+        <table>
+            <tr>
+                <td>
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="file"/>
+                            <br />
+                        <input type="submit" value="Upload File" />
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
+        <h1>My Gold: {{ request.session.bank }} </h1>
+        
+        <form action="/process_money" method="post" class="inline" >
+            {% csrf_token %}
+            <input type="hidden" name="building" value="farm" >
+            <input class="btn btn-primary" type="submit" value="Farm">
+        </form>
+        <form action="/process_money" method="post" class="inline">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="cave" >
+            <input class="btn btn-success" type="submit" value="Cave">
+        </form>
+        <form action="/process_money" method="post" class="inline">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="house" >
+            <input class="btn btn-warning" type="submit" value="House">
+        </form>
+        <form action="/process_money" method="post" class="inline">
+            {% csrf_token %}
+            <input type="hidden" name="building" value="casino"  >
+            <input class="btn btn-dark" type="submit" value="Casino">
+        </form>
+        <form action="/reset" method="post" class="inline">
+            {% csrf_token %}
+            <input class="btn btn-danger" name="reset" type="submit" value="Reset">        
+        </form>
+
+        <br><br>
+
+        Activities:
+        <div style="height:200px; margin:10px 0px 20px 0px; border: 2px solid black; width:auto; overflow-y:auto;">
+            {% if 'action' in request.session %}
+                <h4>List Count: {{ request.session.action|length }} </h4>
+                {% for value in request.session.action %}
+                    {{ value|safe }}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+    </div>
+
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- Placing scripts in external files has some advantages:
+        - It separates HTML and code
+        - It makes HTML and JavaScript easier to read and maintain
+        - Cached JavaScript files can speed up page loads -->
+        <!-- Placing scripts at the bottom of the <body> element improves the display speed 
+        because script compilation slows down the display.     -->
+        <!-- -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <!-- popper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <!-- -->
+
+    </div> <!-- end wrapper -->
+
+</body>
+</html>
+

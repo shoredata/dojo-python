@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+</head>
+<body>
+    <h1>Users</h1>
+    <table style="width:100%">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Actions</th>
+        </tr>
+        <!-- <tr>
+            <td>Jill</td>
+            <td>Smith</td> 
+            <td>50</td>
+        </tr> -->
+        {% for u in allusers %}
+            <tr>
+                <td>{{u.id}}</td>
+                <td>{{u.first_name}} {{u.last_name}}</td>
+                <td>{{u.email}}</td>
+                <td>{{u.created_at}}</td>
+                <td>{{u.updated_at}}</td>
+                <td><a href="/users/{{ u.id }}/" + >Show</a>  | <a href="/users/{{ u.id }}/edit/">Edit</a> | <a href="/users/{{ u.id }}/destroy/">Delete</a></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+
+    <a href="/users/new/">Add a new user</a>
+    
+</body>
+</html>
